@@ -1,5 +1,34 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Responsive navigation
+  const menuToggle = document.querySelector('.menu-toggle');
+  const primaryNav = document.querySelector('.nav-links');
+
+  if (menuToggle && primaryNav) {
+    const closeMenu = () => {
+      primaryNav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'M\u1edf menu \u0111i\u1ec1u h\u01b0\u1edbng');
+    };
+
+    menuToggle.addEventListener('click', () => {
+      const willOpen = menuToggle.getAttribute('aria-expanded') !== 'true';
+      primaryNav.classList.toggle('open', willOpen);
+      menuToggle.setAttribute('aria-expanded', String(willOpen));
+      menuToggle.setAttribute('aria-label', willOpen ? '\u0110\u00f3ng menu \u0111i\u1ec1u h\u01b0\u1edbng' : 'M\u1edf menu \u0111i\u1ec1u h\u01b0\u1edbng');
+    });
+
+    primaryNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeMenu();
+    });
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.site-header')) closeMenu();
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1100) closeMenu();
+    });
+  }
   // Lọc sản phẩm
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
